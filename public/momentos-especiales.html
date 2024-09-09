@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rompecabezas Interactivo</title>
+    <!-- Incluye Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Incluye Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3e5f5; /* Color de fondo morado claro */
+            color: #4a148c; /* Color de texto morado oscuro */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Establece altura mínima del cuerpo al 100% del viewport */
+            position: relative;
+        }
+        nav {
+            background-color: #6a1b9a; /* Color de fondo morado para la navegación */
+            color: white;
+            padding: 1em;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 1em;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3em;
+            margin-top: 1em;
+            color: #4a148c;
+        }
+        #instructions {
+            margin: 1em auto;
+            font-size: 1.2em;
+            color: #4a148c;
+            background-color: #ffffff;
+            padding: 1em;
+            border-radius: 10px;
+            border: 2px solid #4a148c;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .puzzle-wrapper {
+            display: flex;
+            justify-content: space-around;
+            margin: 2em auto;
+            width: 80%;
+            flex-direction: column; /* Apilar verticalmente */
+            gap: 2em; /* Espacio entre los rompecabezas */
+        }
+        .puzzle-title {
+            font-size: 1.5em;
+            margin: 1em 0;
+            color: #4a148c;
+            text-align: center;
+        }
+        .puzzle-container {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            border: 2px solid #4a148c; /* Borde alrededor del contenedor */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra para mayor profundidad */
+            background-color: #ffffff; /* Fondo blanco para visibilidad */
+            overflow: hidden; /* Oculta el contenido fuera del contenedor */
+        }
+        .puzzle-piece {
+            position: absolute;
+            width: 33.333%;
+            height: 33.333%;
+            box-sizing: border-box;
+            border: 1px solid #ddd; /* Borde para cada pieza */
+            cursor: grab;
+            background-size: 300px 300px; /* Ajusta al tamaño total del rompecabezas */
+            background-repeat: no-repeat;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+        .puzzle-piece.correct {
+            cursor: default;
+            z-index: 0;
+            transition: none;
+        }
+        footer {
+            background-color: #6a1b9a; /* Fondo morado para el pie de página */
+            color: white;
+            padding: 1em;
+            margin-top: auto;
+            width: 100%;
+        }
+        /* Mensaje de finalización */
+        #completion-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: #4a148c;
+            border-radius: 10px;
+            padding: 2em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 200;
+        }
+        #completion-message button {
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #completion-message button:hover {
+            background-color: #4a148c;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="mensaje.html">Mensaje</a></li>
+            <li><a href="nuestros-suenos.html">Nuestros Sueños</a></li>
+            <li><a href="nuestro-futuro.html">Nuestro Futuro</a></li>
+            <li><a href="momentos-especiales.html">Momentos Especiales</a></li>
+        </ul>
+    </nav>
+
+    <h1>Rompecabezas Interactivo</h1>
+
+    <!-- Indicaciones -->
+    <div id="instructions">
+        <p>¡Bienvenida Amor al rompecabezas!</p>
+        <p>Arrastra las piezas y colócalas en el lugar correcto para completar la imagen.</p>
+        <p>Consulta la imagen guía para ayudarte a resolver el rompecabezas.</p>
+    </div>
+
+    <!-- Contenedor de rompecabezas guía y rompecabezas desordenado -->
+    <div class="puzzle-wrapper">
+        <!-- Rompecabezas Solución -->
+        <div class="puzzle-title">Solución</div>
+        <div id="puzzle-container-1" class="puzzle-container">
+            <div class="puzzle-piece" data-id="0" style="background-image: url('IMG-20240908-WA0086.jpg'); background-position: 0% 0%;"></div>
+            <div class="puzzle-piece" data-id="1" style="background-image: url('IMG-20240908-WA0087.jpg'); background-position: 33.333% 0%;"></div>
+            <div class="puzzle-piece" data-id="2" style="background-image: url('IMG-20240908-WA0088.jpg'); background-position: 66.666% 0%;"></div>
+            <div class="puzzle-piece" data-id="3" style="background-image: url('IMG-20240908-WA0089.jpg'); background-position: 0% 33.333%;"></div>
+            <div class="puzzle-piece" data-id="4" style="background-image: url('IMG-20240908-WA0091.jpg'); background-position: 33.333% 33.333%;"></div>
+            <div class="puzzle-piece" data-id="5" style="background-image: url('IMG-20240908-WA0092.jpg'); background-position: 66.666% 33.333%;"></div>
+            <div class="puzzle-piece" data-id="6" style="background-image: url('IMG-20240908-WA0093.jpg'); background-position: 0% 66.666%;"></div>
+            <div class="puzzle-piece" data-id="7" style="background-image: url('IMG-20240908-WA0155.jpg'); background-position: 33.333% 66.666%;"></div>
+            <div class="puzzle-piece" data-id="8" style="background-image: url('IMG-20240908-WA0156.jpg'); background-position: 66.666% 66.666%;"></div>
+        </div>
+
+        <!-- Rompecabezas Resuélvelo -->
+        <div class="puzzle-title">Resuélvelo</div>
+        <div id="puzzle-container-2" class="puzzle-container">
+            <!-- Las piezas aquí se desordenan -->
+            <div class="puzzle-piece" data-id="0" style="background-image: url('IMG-20240908-WA0086.jpg');"></div>
+            <div class="puzzle-piece" data-id="1" style="background-image: url('IMG-20240908-WA0087.jpg');"></div>
+            <div class="puzzle-piece" data-id="2" style="background-image: url('IMG-20240908-WA0088.jpg');"></div>
+            <div class="puzzle-piece" data-id="3" style="background-image: url('IMG-20240908-WA0089.jpg');"></div>
+            <div class="puzzle-piece" data-id="4" style="background-image: url('IMG-20240908-WA0091.jpg');"></div>
+            <div class="puzzle-piece" data-id="5" style="background-image: url('IMG-20240908-WA0092.jpg');"></div>
+            <div class="puzzle-piece" data-id="6" style="background-image: url('IMG-20240908-WA0093.jpg');"></div>
+            <div class="puzzle-piece" data-id="7" style="background-image: url('IMG-20240908-WA0155.jpg');"></div>
+            <div class="puzzle-piece" data-id="8" style="background-image: url('IMG-20240908-WA0156.jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Mensaje de finalización -->
+    <div id="completion-message">
+        <h2>¡Felicidades!</h2>
+        <p>Has completado el rompecabezas. ¡Qué emocionante!</p>
+        <button onclick="continueToNextLevel()">Continuar</button>
+    </div>
+
+  
+
+    <footer id="footer">
+        <p>Contacto: <a href="Mi-correo:jp179063@gmail.com" style="color: white;">jp179063@gmail.com</a></p>
+      </footer>
+
+    <!-- Incluye Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script para el rompecabezas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function initializePuzzle(containerId) {
+                const puzzleContainer = document.getElementById(containerId);
+                const pieces = Array.from(puzzleContainer.querySelectorAll('.puzzle-piece'));
+                let draggedPiece = null;
+                let startX, startY, offsetX, offsetY;
+
+                // Inicializa las posiciones y tamaños de las piezas
+                pieces.forEach((piece, index) => {
+                    const row = Math.floor(index / 3);
+                    const col = index % 3;
+                    piece.style.width = `${100 / 3}%`;
+                    piece.style.height = `${100 / 3}%`;
+                    piece.style.left = `${col * 33.333}%`;
+                    piece.style.top = `${row * 33.333}%`;
+                    piece.dataset.correctLeft = col * 33.333;
+                    piece.dataset.correctTop = row * 33.333;
+                });
+
+                // Desordena las piezas
+                if (containerId === 'puzzle-container-2') {
+                    shuffleArray(pieces).forEach((piece, index) => {
+                        piece.style.left = `${Math.floor(Math.random() * 100)}%`;
+                        piece.style.top = `${Math.floor(Math.random() * 100)}%`;
+                    });
+                }
+
+                pieces.forEach(piece => {
+                    piece.addEventListener('mousedown', (e) => {
+                        draggedPiece = e.target;
+                        startX = e.clientX;
+                        startY = e.clientY;
+                        offsetX = e.clientX - draggedPiece.getBoundingClientRect().left;
+                        offsetY = e.clientY - draggedPiece.getBoundingClientRect().top;
+                        draggedPiece.style.zIndex = 1000; // Asegura que la pieza esté encima de las demás
+                    });
+
+                    piece.addEventListener('mouseup', () => {
+                        if (draggedPiece) {
+                            checkCompletion();
+                            draggedPiece.style.zIndex = ''; // Restablece el z-index
+                            draggedPiece = null;
+                        }
+                    });
+
+                    piece.addEventListener('mousemove', (e) => {
+                        if (draggedPiece) {
+                            const x = e.clientX - offsetX;
+                            const y = e.clientY - offsetY;
+                            draggedPiece.style.left = `${Math.max(0, Math.min(puzzleContainer.offsetWidth - draggedPiece.offsetWidth, x - puzzleContainer.getBoundingClientRect().left))}px`;
+                            draggedPiece.style.top = `${Math.max(0, Math.min(puzzleContainer.offsetHeight - draggedPiece.offsetHeight, y - puzzleContainer.getBoundingClientRect().top))}px`;
+                        }
+                    });
+                });
+
+                // Función de verificación de completitud del rompecabezas
+                function checkCompletion() {
+                    const tolerance = 10; // Tolerancia para la posición correcta
+                    let allCorrect = true;
+
+                    pieces.forEach(piece => {
+                        const rect = piece.getBoundingClientRect();
+                        const correctLeft = parseFloat(piece.dataset.correctLeft);
+                        const correctTop = parseFloat(piece.dataset.correctTop);
+                        const pieceLeft = (parseFloat(piece.style.left) / puzzleContainer.offsetWidth) * 100;
+                        const pieceTop = (parseFloat(piece.style.top) / puzzleContainer.offsetHeight) * 100;
+
+                        if (Math.abs(pieceLeft - correctLeft) > tolerance ||
+                            Math.abs(pieceTop - correctTop) > tolerance) {
+                            allCorrect = false;
+                            piece.dataset.correct = false;
+                            piece.classList.remove('correct');
+                        } else {
+                            piece.dataset.correct = true;
+                            piece.classList.add('correct');
+                        }
+                    });
+
+                    if (allCorrect) {
+                        document.getElementById('completion-message').style.display = 'block';
+                    }
+                }
+
+                return checkCompletion;
+            }
+
+            // Función para mezclar un array
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            // Inicializa ambos rompecabezas
+            const checkCompletion1 = initializePuzzle('puzzle-container-1');
+            const checkCompletion2 = initializePuzzle('puzzle-container-2');
+        });
+
+        function continueToNextLevel() {
+            document.getElementById('completion-message').style.display = 'none';
+            // Aquí puedes añadir la lógica para continuar al siguiente nivel
+        }
+    </script>
+</body>
+</html>

@@ -1,43 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Te Amo</title>
+  <!-- Incluye Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3e5f5; /* Color de fondo morado claro */
+      color: #4a148c; /* Color de texto morado oscuro */
+      text-align: center;
+      position: relative; /* Añadido para posición relativa */
+    }
+    nav {
+      background-color: #6a1b9a; /* Color de fondo morado para la navegación */
+      color: white;
+      padding: 1em;
+    }
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    nav ul li {
+      display: inline;
+      margin: 0 1em;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3em;
+      margin-top: 1em;
+      color: #4a148c; /* Color del título */
+    }
+    #carousel {
+      position: relative;
+      width: 25%;
+      margin: 2em auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    #imageContainer {
+      position: relative;
+      width: 100%;
+      padding-top: 150%;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    #imageContainer video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      z-index: 100;
+    }
+    .carousel-control {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 1.5em;
+      padding: 0.5em 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .carousel-control:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    .floating {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+  will-change: transform;
+  z-index: 1000; /* Asegúrate de que este valor sea menor que el de la ventana modal */
+}
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+#floatingImagesContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000; /* Mantén un z-index alto */
+}
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    #message {
+      background-color: #e1bee7; /* Fondo morado claro para el mensaje */
+      border-radius: 10px;
+      padding: 2em;
+      margin: 2em auto;
+      width: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    footer {
+      background-color: #6a1b9a; /* Fondo morado para el pie de página */
+      color: white;
+      padding: 1em;
+      margin-top: 2em;
+    }
+    /* Estilos para los corazones */
+    .heart {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      color: #ff4081; /* Color del corazón */
+      z-index: 100;
+      animation: heartbeat 1s infinite alternate; /* Animación de latido */
+      cursor: pointer;
+    }
+    .heart-left {
+      top: 0px; /* Ajusta la posición del corazón izquierdo */
+      left: 20px; /* Ajusta la posición del corazón izquierdo */
+    }
+    .heart-right {
+      top: 0px; /* Ajusta la posición del corazón derecho */
+      right: 20px; /* Ajusta la posición del corazón derecho */
+    }
+    @keyframes heartbeat {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.2);
+      }
+    }
+    /* Estilos para la ventana modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 20px;
+      width: 60%;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .modal-buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .modal-buttons button:hover {
+      background-color: #6a1b9a;
+      color: white;
+    }
+   
+.document-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000; /* Asegúrate de que sea mayor que el de las imágenes flotantes */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+    .document-modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 20px;
+      width: 80%;
+      height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      overflow-y: auto;
+    }
+  /* Estilos para mejorar la presentación del compromiso */
+  .document-content {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.6;
+    text-align: justify;
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  .document-content li {
+    margin-bottom: 10px;
+  }
+
+  .signature-line {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .document-content p {
+    margin-bottom: 10px; /* Espaciado inferior entre párrafos */
+    text-align: left; /* Asegurar que los párrafos estén alineados a la izquierda */
+  }
+
+  .document-content p:last-child {
+    text-align: center; /* Alineación centrada para el último párrafo */
+    margin-top: 20px; /* Espaciado superior adicional para separación */
+  }
+/* Estilo para el campo de Testigo */
+.Novios {
+    color: #6a1b9a; /* Color púrpura */
+    font-weight: bold;
+  }
+  /* Estilo para el campo de Testigo */
+  .testigo {
+    color: #6a1b9a; /* Color púrpura */
+    font-weight: bold;
+  }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="mensaje.html">Mensaje</a></li>
+      <li><a href="nuestros-suenos.html">Nuestros Sueños</a></li> <!-- Enlace a nuestra-suenos.html -->
+      <li><a href="nuestro-futuro.html">Nuestro Futuro</a></li> <!-- Enlace a nuestro-futuro.html -->
+      <li><a href="momentos-especiales.html">Momentos Especiales</a></li> <!-- Enlace a momentos-especiales.html -->
+    </ul>
+  </nav>
+  
+
+  <h1>Te Amo</h1>
+  <div id="carousel">
+    <div class="carousel-controls">
+      <div class="carousel-control" id="prevVideo">&lt;</div>
+      <div class="carousel-control" id="nextVideo">&gt;</div>
+    </div>
+    <div id="imageContainer">
+      <video id="videoPlayer" class="floating-video" controls autoplay>
+        <source src="VideELLAYYO.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
+    </div>
+  </div>
+
+  <div id="message">
+    <p>Mi amor por ti es eterno, y cada día que pasa me enamoro más de ti. Gracias por ser mi inspiración y mi alegría.</p>
+    <p>Eres la razón por la que me levanto con una sonrisa cada mañana. Te amo más de lo que las palabras pueden expresar.</p>
+    <p>Tu amor ilumina mi vida y me da la fuerza para enfrentar cualquier desafío. Eres mi todo.</p>
+    <p>Desde que entraste en mi vida, todo ha sido más hermoso y colorido. Gracias por ser tú.</p>
+    <p>Amarte es la mejor decisión que he tomado. Eres mi amor eterno.</p>
+  </div>
+
+  <footer id="footer">
+    <p>Contacto: <a href="Mi-correo:jp179063@gmail.com" style="color: white;">jp179063@gmail.com</a></p>
+  </footer>
+
+  <!-- Corazones en las esquinas -->
+  <i class="fas fa-heart heart heart-left fa-5x" id="heartLeft" onclick="showLoveModal()"></i>
+  <i class="fas fa-heart heart heart-right fa-5x" id="heartRight" onclick="hideHeart()"></i>
+
+  <!-- Ventana modal -->
+  <div id="loveModal" class="modal">
+    <div class="modal-content">
+      <p>¿Me dejas ser tu amor eterno?</p>
+      <div class="modal-buttons">
+        <button onclick="declareLove(true)">Sí</button>
+        <button onclick="declareLove(false)">No</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ventana modal del documento -->
+  <div id="documentModal" class="document-modal">
+    <div class="document-modal-content">
+      <h2>Documento de Compromiso</h2>
+      <div class="document-content">
+        <p>Nosotros, <span class="Novios" contenteditable="false">Juan David Esquivel Perez</span>, en calidad de novio, y <span class="Novios" contenteditable="true">______________</span>, en calidad de novia, con <span class="testigo">Dororo</span> como testigo, declaramos nuestro amor eterno y nos comprometemos a:</p>
+        <ul>
+          <li>Apoyarnos mutuamente en todas las circunstancias de la vida, brindándonos consuelo y fortaleza.</li>
+          <li>Compartir nuestras alegrías y enfrentar juntos las dificultades, siendo siempre el refugio del otro.</li>
+          <li>Respetarnos y valorarnos, reconociendo la individualidad y los sueños de cada uno, apoyándonos para alcanzar nuestras metas.</li>
+          <li>Mantener una comunicación abierta y honesta, escuchándonos con el corazón y la mente abierta, sin juzgar ni criticar.</li>
+          <li>Cultivar la confianza y la fidelidad, siendo sinceros y leales el uno con el otro, y trabajando juntos para resolver cualquier conflicto.</li>
+          <li>Crear juntos recuerdos inolvidables, disfrutando de cada momento compartido, y haciendo de la felicidad una prioridad en nuestras vidas.</li>
+          <li>Apoyar y celebrar los logros y aspiraciones de cada uno, siendo el pilar fundamental en nuestras vidas y animándonos mutuamente a crecer.</li>
+          <li>Amarnos incondicionalmente, aceptando nuestras virtudes y defectos, y esforzándonos por mejorar cada día como pareja y como individuos.</li>
+          <li>Fomentar un ambiente de amor, paz y armonía en nuestro hogar, siendo un ejemplo de cariño y respeto para quienes nos rodean.</li>
+          <li>Nutrir nuestro amor diariamente, dedicándonos tiempo de calidad y recordando siempre por qué nos elegimos, renovando nuestro compromiso cada día.</li>
+          <li>Soportarnos en tiempos difíciles y ser la fuerza del otro, enfrentando juntos las adversidades y creciendo como pareja.</li>
+          <li>Ser pacientes y comprensivos, sabiendo que el amor verdadero requiere esfuerzo y dedicación continua.</li>
+          <li>Compartir nuestras vidas en igualdad, tomando decisiones juntos y respetando nuestras opiniones y sentimientos.</li>
+          <li>Crear un legado de amor y respeto que trascienda el tiempo, dejando huella en nuestras familias y amigos.</li>
+          <li>Vivir cada día con gratitud por tenernos el uno al otro, valorando cada momento como un regalo.</li>
+        </ul>
+        <div class="signature-line">
+          <p>Firmado por:</p>
+          <p><span class="Novios"contenteditable="false">Juan David Esquivel Perez</span></p>
+          <p><span class="Novios"contenteditable="true">______________</span></p>
+          <p>Testigo:</p>
+          <p><span class="testigo">Dororo</span></p>
+        </div>
+      </div>
+      <div class="modal-buttons">
+        <button onclick="closeDocumentModal()">ACEPTO</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showLoveModal() {
+      const modal = document.getElementById('loveModal');
+      modal.style.display = 'block';
+    }
+
+    function declareLove(answer) {
+      const modal = document.getElementById('loveModal');
+      modal.style.display = 'none';
+
+      if (answer) {
+        alert("Eres mi amor eterno. Te amo con todo mi corazón.");
+        showDocumentModal();
+      } else {
+        alert("Entiendo. No te preocupes, siempre estaré aquí para ti.");
+      }
+    }
+
+    function showDocumentModal() {
+      const documentModal = document.getElementById('documentModal');
+      documentModal.style.display = 'block';
+    }
+
+    function closeDocumentModal() {
+      const documentModal = document.getElementById('documentModal');
+      documentModal.style.display = 'none';
+    }
+
+    function hideHeart() {
+      const heartRight = document.getElementById('heartRight');
+      heartRight.style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const videoPlayer = document.getElementById('videoPlayer');
+      const prevButton = document.getElementById('prevVideo');
+      const nextButton = document.getElementById('nextVideo');
+      const floatingImagesContainer = document.createElement('div');
+      floatingImagesContainer.id = 'floatingImagesContainer';
+      document.body.appendChild(floatingImagesContainer);
+
+      const carouselVideoUrls = [
+    'VideELLAYYO.mp4',
+    'VIDEOELLAYYO.mp4',
+    'ElAmorDeMiVida.mp4',
+    'VID-20240908-WA0003.mp4',
+    'VID-20240908-WA0006.mp4',
+    'VID-20240908-WA0007.mp4',
+    'VID-20240908-WA0017.mp4',
+    'VID-20240908-WA0023.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_007a8dda.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_7bcd5fad.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_9fc4260d.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_19d084ad.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_26d40acf.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_30a9fab5.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_97fc3e2b.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_533fcecb.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_545af042.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_585d37e6.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_7560bf85.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_a34fdd34.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_a37a5fbb.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_bbeef551.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.58_d929e97a.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.59_6d57ac0f.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.59_88821e4f.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.59_c286b19d.mp4',
+    'Video de WhatsApp 2024-09-06 a las 19.39.59_d42b329a.mp4'
+];
+
+ const additionalImageUrls = [
+
+    "ELLAS.jpeg",
+    "ELLAS1.jpeg",
+    "ELLASyYO.jpeg",
+    "Imagen de WhatsApp 2024-08-30 a las 13.31.39_72c1e49d.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_0baa5a04.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_0e771500.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_1b6d7024.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_1d763658.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_3b201018.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_3f4966a0.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_4b8521df.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_5dc5159c.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_5f35cd12.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_6c4811df.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_6daec0d5.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_6de7daf6.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_07ecb000.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_26f8b5c4.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_41d7824a.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_56dce656.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_56fe3040.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_78d8ee41.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_82a14c65.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_087c1b9f.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_292cbe8b.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_425c4a83.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_3095e171.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_3160b41d.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_8384b532.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_9389a707.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_06428975.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_44874963.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_73798604.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_ab6f30fc.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_abadbcd3.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_b3fc66e2.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_b29be930.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_b3603e8d.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_bc2371e7.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_bca6cbc4.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_bfadd441.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_c1dd4e0a.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_c2f96043.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_ccecab83.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_ccf60829.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_cd7357f8.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_d8ffabc4.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_d10f18ca.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_d56696ce.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_da2cf627.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_df78bf4e.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_e2d185f1.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_e4ff5df6.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_ea36e421.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_ed3e973d.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_f0f429df.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_f336cec5.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_fb8b8fb0.jpg",
+    "Imagen de WhatsApp 2024-09-06 a las 19.39.58_ff915397.jpg",
+    "IMG-20240908-WA0003.jpg",
+    "IMG-20240908-WA0005.jpg",
+    "IMG-20240908-WA0006.jpg",
+    "IMG-20240908-WA0007.jpg",
+    "IMG-20240908-WA0008.jpg",
+    "IMG-20240908-WA0009.jpg",
+    "IMG-20240908-WA0010.jpg",
+    "IMG-20240908-WA0011.jpg",
+    "IMG-20240908-WA0012.jpg",
+    "IMG-20240908-WA0013.jpg",
+    "IMG-20240908-WA0014.jpg",
+    "IMG-20240908-WA0015.jpg",
+    "IMG-20240908-WA0016.jpg",
+    "IMG-20240908-WA0017.jpg",
+    "IMG-20240908-WA0018.jpg",
+    "IMG-20240908-WA0019.jpg",
+    "IMG-20240908-WA0020.jpg",
+    "IMG-20240908-WA0021.jpg",
+    "IMG-20240908-WA0022.jpg",
+    "IMG-20240908-WA0023.jpg",
+    "IMG-20240908-WA0027.jpg",
+    "IMG-20240908-WA0028.jpg",
+    "IMG-20240908-WA0029.jpg",
+    "IMG-20240908-WA0030.jpg",
+    "IMG-20240908-WA0031.jpg",
+    "IMG-20240908-WA0032.jpg",
+    "IMG-20240908-WA0033.jpg",
+    "IMG-20240908-WA0034.jpg",
+    "IMG-20240908-WA0035.jpg",
+    "IMG-20240908-WA0036.jpg",
+    "IMG-20240908-WA0037.jpg",
+    "IMG-20240908-WA0038.jpg",
+    "IMG-20240908-WA0039.jpg",
+    "IMG-20240908-WA0040.jpg",
+    "IMG-20240908-WA0041.jpg",
+    "IMG-20240908-WA0042.jpg",
+    "IMG-20240908-WA0044.jpg",
+    "IMG-20240908-WA0046.jpg",
+    "IMG-20240908-WA0047.jpg",
+    "IMG-20240908-WA0048.jpg",
+    "IMG-20240908-WA0049.jpg",
+    "IMG-20240908-WA0051.jpg",
+    "IMG-20240908-WA0052.jpg",
+    "IMG-20240908-WA0053.jpg",
+    "IMG-20240908-WA0054.jpg",
+    "IMG-20240908-WA0055.jpg",
+    "IMG-20240908-WA0057.jpg",
+    "IMG-20240908-WA0058.jpg",
+    "IMG-20240908-WA0059.jpg",
+    "IMG-20240908-WA0071.jpg",
+    "IMG-20240908-WA0072.jpg",
+    "IMG-20240908-WA0086.jpg",
+    "IMG-20240908-WA0087.jpg",
+    "IMG-20240908-WA0088.jpg",
+    "IMG-20240908-WA0089.jpg",
+    "IMG-20240908-WA0091.jpg",
+    "IMG-20240908-WA0092.jpg",
+    "IMG-20240908-WA0093.jpg",
+    "IMG-20240908-WA0094.jpg",
+    "IMG-20240908-WA0095.jpg",
+    "IMG-20240908-WA0096.jpg",
+    "IMG-20240908-WA0101.jpg",
+    "IMG-20240908-WA0102.jpg",
+    "IMG-20240908-WA0103.jpg",
+    "IMG-20240908-WA0104.jpg",
+  
+    "IMG-20240908-WA0122.jpg",
+    "IMG-20240908-WA0123.jpg",
+    "IMG-20240908-WA0124.jpg",
+    "IMG-20240908-WA0125.jpg",
+    "IMG-20240908-WA0126.jpg",
+    "IMG-20240908-WA0127.jpg",
+    "IMG-20240908-WA0128.jpg",
+    "IMG-20240908-WA0129.jpg",
+    "IMG-20240908-WA0130.jpg",
+    "IMG-20240908-WA0131.jpg",
+    "IMG-20240908-WA0148.jpg",
+    "IMG-20240908-WA0149.jpg",
+    "IMG-20240908-WA0150.jpg",
+    "IMG-20240908-WA0153.jpg",
+    "IMG-20240908-WA0154.jpg",
+    "IMG-20240908-WA0155.jpg",
+    "IMG-20240908-WA0156.jpg",
+    "IMG-20240908-WA0168.jpg",
+    "IMG-20240908-WA0169.jpg",
+    "IMG-20240908-WA0170.jpg",
+    "IMG-20240908-WA0176.jpg",
+    "IMG-20240908-WA0177.jpg",
+    "IMG-20240908-WA0178.jpg",
+    "IMG-20240908-WA0179.jpg"
+        ];
+
+      let currentIndex = 0;
+
+      function moveNextVideo() {
+        currentIndex = (currentIndex + 1) % carouselVideoUrls.length;
+        videoPlayer.src = carouselVideoUrls[currentIndex];
+        videoPlayer.play();
+      }
+
+      function movePreviousVideo() {
+        currentIndex = (currentIndex - 1 + carouselVideoUrls.length) % carouselVideoUrls.length;
+        videoPlayer.src = carouselVideoUrls[currentIndex];
+        videoPlayer.play();
+      }
+
+      prevButton.addEventListener('click', movePreviousVideo);
+      nextButton.addEventListener('click', moveNextVideo);
+
+      function moveImageRandomly(img) {
+        const minX = 0;
+        const maxX = window.innerWidth - img.clientWidth;
+        const minY = 0;
+        const maxY = window.innerHeight - img.clientHeight;
+
+        const startX = Math.random() * (maxX - minX) + minX;
+        const startY = Math.random() * (maxY - minY) + minY;
+
+        img.style.transition = 'none';
+        img.style.opacity = 0;
+        img.style.transform = `translate(${startX}px, ${startY}px)`;
+
+        setTimeout(() => {
+          img.style.transition = 'transform 10s ease, opacity 1s ease-in-out';
+          img.style.opacity = 1;
+          const newX = Math.random() * (maxX - minX) + minX;
+          const newY = Math.random() * (maxY - minY) + minY;
+          img.style.transform = `translate(${newX}px, ${newY}px)`;
+        }, 100);
+      }
+
+      additionalImageUrls.forEach((url, index) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.classList.add('floating');
+        floatingImagesContainer.appendChild(img);
+
+        moveImageRandomly(img);
+
+        setInterval(() => {
+          moveImageRandomly(img);
+        }, 10000);
+      });
+
+      videoPlayer.play();
+    });
+  </script>
+</body>
 </html>

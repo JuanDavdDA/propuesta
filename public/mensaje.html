@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Mensaje de Amor</title>
+  <!-- Incluye Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3e5f5; /* Color de fondo morado claro */
+      color: #4a148c; /* Color de texto morado oscuro */
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Establece altura mínima del cuerpo al 100% del viewport */
+      position: relative; /* Añadido para posición relativa */
+    }
+    nav {
+      background-color: #6a1b9a; /* Color de fondo morado para la navegación */
+      color: white;
+      padding: 1em;
+    }
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    nav ul li {
+      display: inline;
+      margin: 0 1em;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3em; /* Aumentado el tamaño del título */
+      margin-top: 1em;
+      color: #4a148c; /* Color del título */
+    }
+    #message {
+      background-color: #e1bee7; /* Fondo morado claro para el mensaje */
+      border-radius: 10px;
+      padding: 2em;
+      margin: 2em auto;
+      width: 80%;
+      max-width: 800px; /* Limitar el ancho máximo del mensaje */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex: 1; /* Establece que este div ocupe el espacio restante */
+    }
+    #message p {
+      font-size: 1.2em; /* Aumentado el tamaño del texto en el mensaje */
+    }
+    footer {
+      background-color: #6a1b9a; /* Fondo morado para el pie de página */
+      color: white;
+      padding: 1em;
+      margin-top: auto; /* Coloca el footer al final del viewport */
+      width: 100%;
+    }
+    /* Estilos para los corazones */
+    .heart {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      color: #ff4081; /* Color del corazón */
+      z-index: 100;
+      animation: heartbeat 1s infinite alternate; /* Animación de latido */
+      cursor: pointer;
+    }
+    .heart-left {
+      top: 0px; /* Ajusta la posición del corazón izquierdo */
+      left: 20px; /* Ajusta la posición del corazón izquierdo */
+    }
+    .heart-right {
+      top: 0px; /* Ajusta la posición del corazón derecho */
+      right: 20px; /* Ajusta la posición del corazón derecho */
+    }
+    @keyframes heartbeat {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.2);
+      }
+    }
+    /* Estilos para animación de parpadeo */
+    .blink {
+      animation: blink-animation 3s steps(5, start) infinite;
+    }
+    @keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="mensaje.html">Mensaje</a></li>
+      <li><a href="nuestros-suenos.html">Nuestros Sueños</a></li> <!-- Enlace a nuestra-suenos.html -->
+      <li><a href="nuestro-futuro.html">Nuestro Futuro</a></li> <!-- Enlace a nuestro-futuro.html -->
+      <li><a href="momentos-especiales.html">Momentos Especiales</a></li> <!-- Enlace a momentos-especiales.html -->
+    </ul>
+  </nav>
+
+  <h1>Mi Mensaje de Amor</h1>
+
+  <div id="message">
+    <p>Mi amor, Alisson, te amo tanto que ni siquiera yo sé cuánto, pero sé que es infinito. A pesar de todo lo que he pasado, seguiré amándote y quiero que todo funcione contigo. Gracias por acompañarme en los momentos más difíciles de mi vida, por compartir alegrías y tristezas, por comprenderme y por amarme por encima de todo. Te amo muchísimo y solo contigo quiero casarme. Estamos destinados a estar unidos y formaremos una relación hermosa, mejorándonos mutuamente. Cada vez que despierto, lo primero que hago es ver tus mensajes, y cuando voy a dormir, solo sueño contigo. Cada día que pasa, te amo más. Nosotros seremos mejores por nuestras familias, y aunque nos critiquen, siempre nos tendremos el uno al otro. No te abandonaré jamás, y quiero saber que tú tampoco lo harás.</p>
+    <p>Quiero que sepas que siempre podrás contar conmigo. Todo lo que tengo te lo daré porque te lo mereces, y sé que seremos muy felices. Dios me lo dijo y por eso nos puso en nuestros caminos. Nos hablamos diariamente, algo que casi ninguna pareja puede lograr, y cuando esté contigo, también estaré para ti todos los días, incluso si estoy enfermo o si pasa lo que pase. Nunca, jamás nos separaremos, ni siquiera por un día. Cuando nos casemos, seremos uno solo; viviremos por y para nosotros. Ahora somos tú y yo, y después seremos un solo ser. Pensaremos en lo mejor para ambos, compartiremos nuestras alegrías y tristezas, y nos apoyaremos mutuamente. Diremos lo que pensamos sabiendo que el otro comprenderá, y buscaremos soluciones como un solo ser. No seremos perfectos, pero nos esforzaremos para ser casi perfectos. Si seguimos el camino de Dios, no habrá nada que pueda con nosotros. Sé que nos bendecirá con hijos hermosos y lograremos todo lo que soñamos. Por ahora son metas, pero pronto las conseguiremos. ¡Te amo mucho! <3</p>
+  </div>
+
+  <footer id="footer">
+    <p>Contacto: <a href="mailto:jp179063@gmail.com" style="color: white;">jp179063@gmail.com</a></p>
+  </footer>
+
+  <!-- Corazones en las esquinas -->
+  <i class="fas fa-heart heart heart-left fa-5x"></i>
+  <i class="fas fa-heart heart heart-right fa-5x"></i>
+</body>
+</html>

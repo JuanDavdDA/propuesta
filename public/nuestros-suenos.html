@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuestros Sueños</title>
+  <!-- Incluye Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3e5f5; /* Color de fondo morado claro */
+      color: #4a148c; /* Color de texto morado oscuro */
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Establece altura mínima del cuerpo al 100% del viewport */
+      position: relative; /* Añadido para posición relativa */
+    }
+    nav {
+      background-color: #6a1b9a; /* Color de fondo morado para la navegación */
+      color: white;
+      padding: 1em;
+    }
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    nav ul li {
+      display: inline;
+      margin: 0 1em;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3em;
+      margin-top: 1em;
+      color: #4a148c; /* Color del título */
+    }
+    #message {
+      background-color: #e1bee7; /* Fondo morado claro para el mensaje */
+      border-radius: 10px;
+      padding: 2em;
+      margin: 2em auto;
+      width: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex: 1; /* Establece que este div ocupe el espacio restante */
+    }
+    footer {
+      background-color: #6a1b9a; /* Fondo morado para el pie de página */
+      color: white;
+      padding: 1em;
+      margin-top: auto; /* Coloca el footer al final del viewport */
+      width: 100%;
+    }
+    /* Estilos para los corazones */
+    .heart {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      color: #ff4081; /* Color del corazón */
+      z-index: 100;
+      animation: heartbeat 1s infinite alternate; /* Animación de latido */
+      cursor: pointer;
+    }
+    .heart-left {
+      top: 0px; /* Ajusta la posición del corazón izquierdo */
+      left: 20px; /* Ajusta la posición del corazón izquierdo */
+    }
+    .heart-right {
+      top: 0px; /* Ajusta la posición del corazón derecho */
+      right: 20px; /* Ajusta la posición del corazón derecho */
+    }
+    @keyframes heartbeat {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.2);
+      }
+    }
+    /* Estilos para animación de parpadeo */
+    .blink {
+      animation: blink-animation 3s steps(5, start) infinite;
+    }
+    @keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+    /* Estilos para animación de estrellas */
+    .falling-star {
+      position: absolute;
+      top: -10%;
+      left: calc(10% + (80% - 20%) * random());
+      color: #ffd700; /* Color de las estrellas */
+      font-size: 2em;
+      animation: fall 5s linear infinite;
+    }
+    @keyframes fall {
+      to {
+        top: 110%;
+        transform: rotate(720deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="mensaje.html">Mensaje</a></li>
+      <li><a href="nuestros-suenos.html">Nuestros Sueños</a></li> <!-- Enlace a nuestra-suenos.html -->
+      <li><a href="nuestro-futuro.html">Nuestro Futuro</a></li> <!-- Enlace a nuestro-futuro.html -->
+      <li><a href="momentos-especiales.html">Momentos Especiales</a></li> <!-- Enlace a momentos-especiales.html -->
+    </ul>
+  </nav>
+
+  <h1>Nuestros Sueños</h1>
+
+  <div id="message">
+    <p>Imagino un futuro lleno de aventuras contigo, donde cada momento sea una nueva oportunidad para crecer juntos y construir nuestros sueños. Quiero viajar por el mundo contigo, explorando cada rincón y creando recuerdos que perduren para siempre.</p>
+    <p>Sueño con salir a conocer el mundo con Dororo y un casita rodante, tener una casa grande, una camioneta, tres hijos, dos gatitos, y también albergues para muchos animalitos. Juntos, viviremos en un hogar lleno de risas, donde siempre haya espacio para nuestros sueños y aspiraciones.</p>
+    <p>Mi mayor sueño es despertar cada día a tu lado, sabiendo que estamos construyendo un futuro sólido y lleno de amor. Eres la persona con la que quiero compartir todos mis sueños y metas, porque contigo todo es posible.</p>
+    <p>Quiero seguir descubriendo el mundo junto a ti, explorando nuevas culturas, probando nuevos sabores y viviendo cada día como si fuera una aventura. Nuestros sueños se entrelazan y juntos podemos hacer que se conviertan en realidad.</p>
+
+    <!-- Contenido adicional -->
+    <div style="margin-top: 3em;">
+      <h2>Un Sueño Especial</h2>
+      <p>Me imagino una tarde tranquila, caminando juntos por la playa, mientras el sol se pone en el horizonte y las olas susurran historias de amor. Es en ese momento, bajo el cielo lleno de colores cálidos, donde nuestros sueños se unen en un solo camino.</p>
+      <p>Quiero construir castillos de arena y compartir risas infinitas mientras el viento juega con nuestros cabellos. Nuestros corazones están entrelazados en este sueño que llamamos vida, donde cada día es una promesa de amor y felicidad.</p>
+    </div>
+
+    <!-- Animación de parpadeo -->
+    <div style="margin-top: 3em;">
+      <h2>¡Sueños que brillan!</h2>
+      <p>Los sueños son como estrellas en el cielo nocturno, brillan con una luz especial que guía nuestro camino. Cada sueño que compartimos se convierte en una chispa de esperanza, iluminando nuestros corazones con alegría y amor.</p>
+      <p>¡Mira cómo brillan nuestros sueños juntos!</p>
+      <i id="star" class="fas fa-star fa-3x blink"></i>
+    </div>
+  </div>
+
+
+  <footer id="footer">
+    <p>Contacto: <a href="Mi-correo:jp179063@gmail.com" style="color: white;">jp179063@gmail.com</a></p>
+  </footer>
+  <!-- Corazones en las esquinas -->
+  <i class="fas fa-heart heart heart-left fa-5x"></i>
+  <i class="fas fa-heart heart heart-right fa-5x"></i>
+
+<!-- Script para animación de estrellas -->
+<script>
+    const star = document.querySelector('.fa-star');
+    const hearts = document.querySelectorAll('.heart');
+  
+    star.addEventListener('click', () => {
+      createStars();
+    });
+  
+    hearts.forEach(heart => {
+      heart.addEventListener('click', () => {
+        // Eliminar todas las estrellas existentes
+        document.querySelectorAll('.falling-star').forEach(star => star.remove());
+      });
+    });
+  
+    function createStars() {
+      const numStars = 30; // Número de estrellas a crear
+  
+      for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('i');
+        star.classList.add('fas', 'fa-star', 'falling-star');
+        star.style.left = `calc(10% + ${Math.random() * 80}%)`; // Posición horizontal aleatoria
+        document.body.appendChild(star);
+  
+        // Elimina la estrella después de la animación
+        star.addEventListener('animationend', () => {
+          star.remove();
+        });
+      }
+    }
+  </script>
+  
+</body>
+</html>
